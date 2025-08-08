@@ -1,0 +1,22 @@
+.icon-scroll-wrapper {
+  width: 900vw;
+  max-width: 2000px;
+}
+
+.icon-scroll {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  height: 100%;
+  width: max-content;
+  animation: scrollLeft 380s linear infinite;
+}
+
+.icon-scroll img {
+  flex-shrink: 0;
+  transition: transform 0.3s ease-in-out;
+}
+
+.icon-scroll img:hover {
+  transform: scale(1.2);
+}

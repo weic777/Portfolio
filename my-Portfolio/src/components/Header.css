@@ -1,0 +1,154 @@
+body {
+  margin: 0;
+}
+
+* {
+  font-family: 'Inter', sans-serif;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 50px 8px 50px;
+  border-bottom: 3px solid black;
+  background-color: white;
+  width: 100vw;              /* ✅ 貼齊整個視窗寬度 */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+}
+
+.subtitle {
+  font-size: 12px;
+  margin: 0;
+}
+
+.en-label {
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  margin-right: 60px;
+}
+
+.zh-label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.space-left {
+  width: 8px;
+  display: inline-block;
+}
+
+.space {
+  width: 6px;
+  display: inline-block;
+}
+
+.logo {
+  font-weight: 900;
+  font-size: 40px;
+  margin: 0;
+  transition: none !important;
+  transform: none !important;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.nav a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
+.icon {
+  width: 25px;
+  height: 25px;
+  transition: transform 0.2s ease;
+}
+
+.icon:hover {
+  transform: scale(1.2);
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.tooltip {
+  opacity: 0;
+  font-size: 10px;
+  color: black;
+  margin-top: 4px;
+  transform: translateY(5px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.nav-item:hover .tooltip,
+.tooltip.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.nav-dot {
+  width: 10px;
+  height: 10px;
+  background-color: #c2c2c2;
+  border-radius: 50%;
+  margin-top: 6px;
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px 24px;
+  }
+
+  .nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .logo {
+    font-size: 28px;
+  }
+
+  .nav a {
+    font-size: 16px;
+  }
+
+  .tooltip {
+    display: none;
+  }
+
+  .nav-item:hover .tooltip {
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    font-size: 24px;
+  }
+
+  .nav {
+    gap: 12px;
+  }
+}

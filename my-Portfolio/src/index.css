@@ -1,68 +1,181 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* ✅ 全站使用 Inter 字體 */
+* {
+  font-family: 'Inter', sans-serif;
 }
 
+/* 全站連結樣式 */
 a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+  color: #71717a;
+  text-decoration: none;
 }
 
+a:hover {
+  color: #000000;
+}
+
+/* 共用按鈕樣式 */
+.hover-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 20px;
+  color: #999999;
+  margin-right: 50px;
+  transition: color 0.3s;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: none;
+}
+
+.hover-label {
+  position: relative;
+  display: inline-block;
+  color: inherit;
+  transition: color 0.3s;
+}
+
+.hover-label::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -4px;
+  width: 100%;
+  height: 2px;
+  background-color: black;
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.count-text {
+  font-size: 14px;
+  font-weight: 400;
+  margin-left: 4px;
+  color: #999999;
+  transition: color 0.3s;
+}
+
+.hover-link:hover,
+.hover-link:hover .hover-label,
+.hover-link.active,
+.hover-link.active .hover-label {
+  color: black;
+}
+
+.hover-link:hover .hover-label::after,
+.hover-link.active .hover-label::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+.hover-link:hover .count-text,
+.hover-link.active .count-text {
+  color: black;
+}
+
+/* 動畫：淡入浮現 */
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.6s ease-out forwards;
+}
+
+.fade-up-delay {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.6s ease-out forwards;
+  animation-delay: 0.4s;
+}
+
+/* 動畫：線條滑入 */
+@keyframes lineSlideIn {
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+.line-grow {
+  width: calc(100vw - 100px);
+  max-width: 1290px;
+  height: 3px;
+  background-color: black;
+  margin: 20px auto 0 auto;
+  transform-origin: left;
+  transform: scaleX(0);
+  opacity: 0;
+  animation: lineSlideIn 0.3s ease-out forwards;
+}
+
+/* 星星旋轉動畫 */
+@keyframes rotateAndScale {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.2);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+.star-icon {
+  transition: transform 0.5s ease-in-out;
+}
+
+.star-icon:hover {
+  animation: rotateAndScale 3s linear infinite;
+}
+
+/* 滾動動畫 */
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Typing 動畫 */
+@keyframes typing {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* 共用 logo 樣式 */
+.logo {
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.2);
+  animation-play-state: paused;
+}
+
+/* ✅ 移除舊有 Arial 設定，改用 Inter 的統一設定 */
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+  padding: 0;
 }
