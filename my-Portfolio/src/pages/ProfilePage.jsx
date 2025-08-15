@@ -1,5 +1,5 @@
 import '../css/ProfilePage.css';
-import Header from '../components/Header';
+import '../index.css';
 import aboutTitle from '../assets/profile-title.svg';
 import myPhoto from '../assets/my.svg';
 import cakeIcon from '../assets/cake.svg';
@@ -28,10 +28,9 @@ function ProfilePage() {
   return (
     <div className="App">
 
-      <div style={{ maxWidth: '1280px', margin: '0 auto', width: '100%' }}>
-        {/* 頁面標題區 */}
-        <section
-          className="px-8 py-20 fade-up"
+      <div style={{width: '100%' }}>
+        {/* 作品標題區塊 */}
+        <section className="px-0 py-0"
           style={{ display: 'flex', justifyContent: 'flex-start' }}
         >
           <img
@@ -41,17 +40,16 @@ function ProfilePage() {
           />
         </section>
 
-        {/* 黑色分隔線 */}
-        <div
-          className="line-grow fade-up"
-          style={{
-            width: 'calc(100vw - 100px)', // 螢幕寬度減去左右各50px
-            maxWidth: 1280, // 最高寬度限制，可選
-            height: 3,
-            backgroundColor: 'black',
-            margin: '100px auto 0 auto', // 上間距100px，左右自動置中，底部0
-          }}
-        ></div>
+{/* 黑色線條 */}
+      <div
+        className="line-grow"
+        style={{
+          width: '100%',
+          height: '3px',
+          backgroundColor: 'black',
+
+        }}
+      ></div>
 
 
         {/* 大頭照 + 聯絡資訊 + 教育背景 */}
@@ -218,18 +216,8 @@ function ProfilePage() {
             </div>
           </section>
         </section>
-        {/* 榮譽上方黑線 */}
 
-        <div
-          className="line-grow fade-up"
-          style={{
-            width: 'calc(100vw - 100px)', // 螢幕寬度減去左右各50px
-            maxWidth: 1280, // 最高寬度限制，可選
-            height: 3,
-            backgroundColor: 'black',
-            margin: '40px auto 0 auto', // 上間距100px，左右自動置中，底部0
-          }}
-        ></div>
+
 
 
         {/* 證書標題 */}

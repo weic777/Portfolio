@@ -1,21 +1,15 @@
 import '../css/ContactPage.css';
-import Header from '../components/Header';
+import '../index.css';
+
 import contactTitle from '../assets/contact-title.svg';
 
 function ContactPage() {
   return (
     <div className="App">
-
-      {/* 頁面標題圖片區塊 */}
-      <section className="px-8 py-20" style={{ maxWidth: '1280px', margin: '0 auto' }}>
-  <div
-    className="fade-up"
-    style={{
-      display: 'flex',
-      justifyContent: 'flex-start', // 從右對齊改為左對齊
-      paddingLeft: '20px',          // 向左推進一些空間
-    }}
-  >
+      <div style={{width: '100%' }}>
+        {/* 作品標題區塊 */}
+        <section className="px-0 py-0">
+          <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
     <img
       src={contactTitle}
       alt="聯絡資訊標題圖"
@@ -32,15 +26,12 @@ function ContactPage() {
 
       {/* 黑色線條 */}
       <div
-        className="line-grow fade-up"
+        className="line-grow"
         style={{
-          width: '90vw',            // 寬度跟視窗寬度比例
-          maxWidth: '1280px',       // 最大寬度限制
+          width: '100%',
           height: '3px',
           backgroundColor: 'black',
-          marginTop: '100px',       // 保持原本高度
-          marginLeft: 'auto',       // 左右置中
-          marginRight: 'auto',
+
         }}
       ></div>
 
@@ -73,6 +64,8 @@ function ContactPage() {
         </p>
       </section>
     </div>
+    </div>
+
   );
 }
 

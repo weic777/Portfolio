@@ -1,24 +1,3 @@
-/* App.css 或 index.css */
-.App {
-  text-align: center;
-  padding: 0 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-}
-
-/* 黑色線條 */
-.line-grow {
-  width: 100%;  /* 確保黑線寬度能根據螢幕大小調整 */
-  max-width: 1280px;  /* 設定最大寬度，避免過長 */
-  height: 3px;
-  background-color: black;
-  margin-top: 30px;
-  margin-left: auto; /* 讓線條居中 */
-  margin-right: auto; /* 讓線條居中 */
-}
 
 .fade-up {
   opacity: 0;
@@ -39,9 +18,6 @@
     padding: 0 10px;
   }
 
-  .line-grow {
-    width: 100%;  /* 保證線條在小螢幕上會縮短 */
-  }
 
   .fade-up {
     animation-delay: 0.2s;

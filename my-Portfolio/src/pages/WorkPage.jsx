@@ -1,3 +1,4 @@
+import '../index.css';
 import '../css/WorkPage.css';
 import { useState } from 'react';
 import workTitle from '../assets/work-title.svg';
@@ -23,9 +24,9 @@ function WorkPage() {
 
   return (
     <div className="App">
-      <div style={{ maxWidth: '1280px', margin: '0 auto', width: '100%' }}>
+      <div style={{width: '100%' }}>
         {/* 作品標題區塊 */}
-        <section className="px-8 py-20">
+        <section className="px-0 py-0">
           <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
             <img
               src={workTitle}
@@ -65,10 +66,9 @@ function WorkPage() {
 
             {/* 黑色分隔線 */}
             <div
-              className="line-grow fade-up"
+              className="line-grow"
               style={{
-                width: 'calc(100vw - 100px)',
-                maxWidth: '1290px',
+                width: '100%',
                 marginTop: '20px',
               }}
             ></div>

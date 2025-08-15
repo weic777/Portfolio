@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/Header';
+import Footer from './components/Footer'
 import HomePage from './pages/HomePage';
 import ContactPage from './pages/ContactPage';
 import ProfilePage from './pages/ProfilePage';
@@ -16,6 +17,8 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/work" element={<WorkPage />} />
       </Routes>
+      {/* footer區 */}
+      <Footer />
     </>
   );
 }
