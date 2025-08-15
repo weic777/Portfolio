@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Header from './components/Header';
+import Nav from './components/Nav';
 import Footer from './components/Footer'
 import HomePage from './pages/HomePage';
 import ContactPage from './pages/ContactPage';
@@ -9,7 +9,7 @@ import WorkPage from './pages/WorkPage';
 function App() {
   return (
     <>
-      <Header />
+      <Nav />
       <Routes>
         <Route path="/" element={<Navigate to="/home" replace />} />
         <Route path="/home" element={<HomePage />} />

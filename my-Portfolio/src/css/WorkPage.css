@@ -1,3 +1,56 @@
+.part {
+  fill: none;
+  stroke: red;
+  stroke-width: 3;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 1s ease forwards;
+}
+
+.part:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.part:nth-child(2) {
+  animation-delay: 1s;
+}
+.my-svg {
+  width: 200px;
+  height: 200px;
+}
+.line {
+  fill: none;
+  stroke: black;
+  stroke-width: 3;
+
+  stroke-dasharray: 1;
+  /* 1 = 線條總長度 */
+  stroke-dashoffset: 1;
+  /* 初始值 = 完全隱藏 */
+  animation: draw 3s linear forwards;
+  filter: url(#rough);
+
+}
+
+svg:hover .line {
+  stroke: rgb(255, 0, 0);
+  animation: draw 3s linear forwards;
+  animation: draw 3s linear infinite;
+  /* infinite 無限重播 */
+
+  fill: #000000;
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+
+  /* 從隱藏開始 */
+  to {
+    stroke-dashoffset: 0;
+  }
+}
 
 .fade-up {
   opacity: 0;
@@ -25,9 +78,12 @@
 
   /* 手機版的圖片處理 */
   img {
-    max-width: 100%;  /* 確保圖片不會超過容器寬度 */
-    width: auto;      /* 寬度自動調整 */
-    height: auto;     /* 高度自動調整 */
+    max-width: 100%;
+    /* 確保圖片不會超過容器寬度 */
+    width: auto;
+    /* 寬度自動調整 */
+    height: auto;
+    /* 高度自動調整 */
   }
 }
 

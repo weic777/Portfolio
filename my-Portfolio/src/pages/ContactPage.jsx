@@ -62,6 +62,7 @@ function ContactPage() {
         <p style={{ marginBottom: '10px', fontWeight: '300' }}>
           請直接透過我的信箱「anna0826777@gmail.com」與我聯繫 
         </p>
+        
       </section>
     </div>
     </div>

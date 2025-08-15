@@ -24,10 +24,13 @@ function WorkPage() {
 
   return (
     <div className="App">
-      <div style={{width: '100%' }}>
+      <div style={{ width: '100%' }}>
         {/* 作品標題區塊 */}
         <section className="px-0 py-0">
-          <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+          <div style={{
+      display: 'flex',
+      justifyContent: 'center', // 水平置中
+      marginTop: '110px',}}>
             <img
               src={workTitle}
               alt="作品標題圖"
@@ -35,10 +38,11 @@ function WorkPage() {
               style={{
                 width: '180px',
                 maxWidth: '100%',
-                marginTop: '110px',
-                marginLeft: '20px',
+                
               }}
+
             />
+
           </div>
         </section>
 
@@ -48,7 +52,7 @@ function WorkPage() {
           style={{ marginTop: '100px' }}
         >
           <div className="inline-flex flex-col font-bold text-xl items-center w-full">
-            <div className="inline-flex flex-wrap justify-center gap-x-8 gap-y-4">
+            <div className="inline-flex flex-wrap justify-center alignItems: 'centergap-x-8 gap-y-4">
               {categories.map((item) => (
                 <button
                   key={item.id}
@@ -67,6 +71,7 @@ function WorkPage() {
             {/* 黑色分隔線 */}
             <div
               className="line-grow"
+
               style={{
                 width: '100%',
                 marginTop: '20px',
@@ -83,7 +88,52 @@ function WorkPage() {
               }}
             >
               {contentByCategory[activeCategory]}
+
             </div>
+            <svg className="my-svg"viewBox="0 0 200 200" width="100%" height="100%">
+  {/* 白色背景 */}
+  <rect width="100%" height="100%" fill="white" />
+
+  {/* 手繪濾鏡 */}
+  <defs>
+    <filter id="rough">
+      <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="2" result="noise"/>
+      <feDisplacementMap in2="noise" in="SourceGraphic" scale="2"/>
+    </filter>
+  </defs>
+
+  {/* 線條 */}
+  <path
+    className="line"
+    pathLength="1"
+    d="M94 86 
+       L79 77.53
+       C78.6948 77.3538 78.4415 77.1001 78.2659 76.7945 
+       78.0903 76.4889 77.9986 76.1424 78 75.79
+       V40
+       C78 29.9218 73.9964 20.2563 66.8701 13.1299
+       C59.7437 6.00356 50.0782 2 40 2
+       C29.9218 2 20.2563 6.00356 13.1299 13.1299
+       C6.00356 20.2563 2 29.9218 2 40
+       V134
+       C2 144.078 6.00356 153.744 13.1299 160.87
+       C20.2563 167.996 29.9218 172 40 172
+       C50.0782 172 59.7437 167.996 66.8701 160.87
+       C73.9964 153.744 78 144.078 78 134
+       V95.5"
+    stroke="black"
+    strokeWidth="3"
+    strokeMiterlimit="10"
+    strokeLinecap="round"
+    style={{ filter: 'url(#rough)' }}
+  />
+</svg>
+
+              <svg viewBox="0 0 200 200" width="200">
+  <path class="part" pathLength="1" d="M 10 150 Q 95 10 180 150" />
+  <path class="part" pathLength="1" d="M 30 150 Q 95 30 160 150" />
+</svg>
+
           </div>
         </section>
       </div>
