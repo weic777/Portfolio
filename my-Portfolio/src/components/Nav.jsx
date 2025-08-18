@@ -1,6 +1,6 @@
 import './Nav.css';
 import { Link, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import behanceIcon from '../assets/Group_Behance.svg';
 import behanceIconHover from '../assets/Group_Behance_hover.svg';
@@ -16,6 +16,11 @@ function Header() {
     { label: 'PROFILE', to: '/profile', tooltip: '個人簡介' },
     { label: 'CONTACT', to: '/contact', tooltip: '聯絡資訊' },
   ];
+
+  // 當路徑改變時自動滾動到最上方
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   return (
     <header className="header sticky-header">

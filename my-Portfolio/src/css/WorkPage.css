@@ -1,19 +1,3 @@
-.part {
-  fill: none;
-  stroke: red;
-  stroke-width: 3;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  animation: draw 1s ease forwards;
-}
-
-.part:nth-child(1) {
-  animation-delay: 0s;
-}
-
-.part:nth-child(2) {
-  animation-delay: 1s;
-}
 .my-svg {
   width: 200px;
   height: 200px;
@@ -33,12 +17,12 @@
 }
 
 svg:hover .line {
-  stroke: rgb(255, 0, 0);
+  stroke: rgb(0, 0, 0);
   animation: draw 3s linear forwards;
   animation: draw 3s linear infinite;
   /* infinite 無限重播 */
 
-  fill: #000000;
+  fill: #ffffff;
 }
 
 @keyframes draw {
@@ -63,6 +47,39 @@ svg:hover .line {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.menu-design-section {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap; /* 允許換行 */
+  padding-top: 150px;
+  gap: 50px; /* 菜單間距 */
+}
+
+.menu-book {
+  width: 263px;
+  height: 372px;
+  background-color: #ccc;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.menu-book-wrapper {
+  display: flex;
+  justify-content: center; /* 水平置中 */
+  align-items: center;     /* 垂直置中 */
+  flex-wrap: wrap;         /* 當螢幕窄時換行 */
+  gap: 50px;               /* 四本書間隔50px */
+  height: 100%;
+  padding-top: 150px;      /* 讓書從區塊上方下來150px */
+}
+.book-container {
+  flex: 0 0 auto;          /* 固定尺寸，不被壓縮 */
+  width: 263px;
+  height: 372px;
+  position: relative;
 }
 
 /* 響應式設置 */

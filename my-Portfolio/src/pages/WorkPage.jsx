@@ -1,142 +1,184 @@
 import '../index.css';
 import '../css/WorkPage.css';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import workTitle from '../assets/work-title.svg';
 
 function WorkPage() {
   const [activeCategory, setActiveCategory] = useState('all');
+  const bookRefs = useRef([]);
 
   const categories = [
     { label: 'All', id: 'all' },
     { label: 'Graphic', id: 'graphic' },
     { label: 'Motion', id: 'motion' },
     { label: 'UI/UX', id: 'uiux' },
-    { label: 'Client', id: 'client' },
   ];
 
-  const contentByCategory = {
-    all: <span style={{ color: 'black', fontSize: '24px', fontWeight: 'bold' }}>888</span>,
-    graphic: <span style={{ color: 'black', fontSize: '24px', fontWeight: 'bold' }}>777</span>,
-    motion: <span style={{ color: 'black', fontSize: '24px', fontWeight: 'bold' }}>666</span>,
-    uiux: <span style={{ color: 'black', fontSize: '24px', fontWeight: 'bold' }}>555</span>,
-    client: <span style={{ color: 'black', fontSize: '24px', fontWeight: 'bold' }}>333</span>,
+  const getSectionBgColor = (section) => {
+    if (activeCategory !== 'all') return 'white';
+    switch (section) {
+      case 'menu': return 'rgba(13, 183, 214, 0.5)';
+      case 'graphic': return 'white';
+      case 'uiux': return '#EFEC64';
+      case 'final': return '#E6E6DC';
+      default: return 'white';
+    }
   };
+
+  useEffect(() => {
+    // 只有在 All 分類時才初始化書本效果
+    if (activeCategory !== 'all') return;
+    if (!window.jQuery) return;
+    const $ = window.jQuery;
+    if (typeof $.fn.bookblock !== 'function') return;
+
+    const books = [];
+
+    bookRefs.current.forEach((bookEl) => {
+      if (!bookEl) return;
+
+      const $book = $(bookEl);
+      const $bookBlock = $book.find('.bb-bookblock');
+      const $backCover = $book.find('.bk-cover-back');
+      const $backCoverBookBlock = $bookBlock.clone().appendTo($backCover);
+
+      const bookDefault = () => $book.removeClass('bk-viewback bk-viewinside').addClass('bk-bookdefault').data({ opened: false, flip: false });
+      const bookBack = () => $book.removeClass('bk-viewinside bk-bookdefault').addClass('bk-viewback').data({ opened: false, flip: true });
+      const bookInside = () => $book.removeClass('bk-viewback bk-bookdefault').addClass('bk-viewinside').data({ opened: true, flip: false });
+
+      bookDefault();
+
+      $book.find('.bk-bookview').on('click', bookInside);
+      $book.find('.bk-bookback').on('click', () => $book.data('flip') ? bookDefault() : bookBack());
+
+      $bookBlock.bookblock({ speed: 800, shadow: false });
+      $backCoverBookBlock.bookblock({ speed: 800, shadow: false });
+
+      const bookBlockNext = () => $bookBlock.bookblock('next');
+      const bookBlockPrev = () => $bookBlock.bookblock('prev');
+
+      $bookBlock.children().add($backCoverBookBlock.children()).on('click', (e) => {
+        if ($(e.target).closest('.bk-cover-back').length === 0) bookBlockNext();
+        else bookBlockPrev();
+      });
+
+      books.push($book);
+    });
+
+    const handleClickOutside = (e) => {
+      if ($(e.target).closest('.bk-book').length === 0) {
+        books.forEach(($book) => {
+          $book.removeClass('bk-viewinside bk-viewback').addClass('bk-bookdefault');
+        });
+      }
+    };
+
+    $('html').on('click', handleClickOutside);
+
+    // 清除事件與 DOM 狀態
+    return () => {
+      $('html').off('click', handleClickOutside);
+      books.forEach(($book) => {
+        $book.off();
+        $book.find('*').off();
+        $book.removeClass('bk-viewinside bk-viewback').addClass('bk-bookdefault');
+      });
+    };
+  }, [activeCategory]);
 
   return (
     <div className="App">
-      <div style={{ width: '100%' }}>
-        {/* 作品標題區塊 */}
-        <section className="px-0 py-0">
-          <div style={{
-      display: 'flex',
-      justifyContent: 'center', // 水平置中
-      marginTop: '110px',}}>
-            <img
-              src={workTitle}
-              alt="作品標題圖"
-              className="fade-up"
-              style={{
-                width: '180px',
-                maxWidth: '100%',
-                
-              }}
+      {/* 標題 */}
+      <section className="title-section" style={{ marginTop: '110px', display: 'flex', justifyContent: 'center' }}>
+        <img src={workTitle} alt="作品標題圖" style={{ width: '180px', maxWidth: '100%' }} />
+      </section>
 
-            />
+      {/* 分類選單 */}
+      <section className="category-section" style={{ marginTop: '50px', textAlign: 'center' }}>
+        <div className="inline-flex flex-wrap justify-center gap-x-8 gap-y-4 font-bold text-xl">
+          {categories.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => setActiveCategory(item.id)}
+              className={`hover-link ${activeCategory === item.id ? 'active' : ''}`}
+              type="button"
+            >
+              <span className="hover-label">{item.label}<span className="count-text">(66)</span></span>
+            </button>
+          ))}
+        </div>
+        <div className="line-grow" style={{ width: '100%', height: '3px', backgroundColor: 'black', marginTop: '20px' }}></div>
+      </section>
 
-          </div>
-        </section>
-
-        {/* 分類選項區塊 */}
+      {/* 菜單設計區塊（只在 All 時顯示） */}
+      {activeCategory === 'all' && (
         <section
-          className="px-8 text-center mb-20 fade-up-delay"
-          style={{ marginTop: '100px' }}
+          className="menu-design-section"
+          style={{
+            backgroundColor: getSectionBgColor('menu'),
+            height: '630px',
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'flex-start',
+            paddingTop: '150px',
+            gap: '50px',
+            flexWrap: 'wrap'
+          }}
         >
-          <div className="inline-flex flex-col font-bold text-xl items-center w-full">
-            <div className="inline-flex flex-wrap justify-center alignItems: 'centergap-x-8 gap-y-4">
-              {categories.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => setActiveCategory(item.id)}
-                  className={`hover-link ${activeCategory === item.id ? 'active' : ''}`}
-                  type="button"
-                >
-                  <span className="hover-label">
-                    {item.label}
-                    <span className="count-text">(66)</span>
-                  </span>
-                </button>
-              ))}
-            </div>
-
-            {/* 黑色分隔線 */}
+          {[1, 2, 3, 4].map((i) => (
             <div
-              className="line-grow"
-
+              key={i}
+              className="menu-book bk-book"
+              ref={(el) => (bookRefs.current[i] = el)}
               style={{
-                width: '100%',
-                marginTop: '20px',
-              }}
-            ></div>
-
-            {/* 分類內容區 */}
-            <div
-              style={{
-                marginTop: '40px',
-                fontSize: '24px',
-                color: 'black',
-                fontWeight: 'bold',
+                width: '263px',
+                height: '372px',
+                backgroundColor: '#ccc',
+                borderRadius: '4px',
+                position: 'relative'
               }}
             >
-              {contentByCategory[activeCategory]}
-
+              <div className="bb-bookblock">
+                <div className="bb-item">Page 1</div>
+                <div className="bb-item">Page 2</div>
+                <div className="bb-item">Page 3</div>
+              </div>
+              <div className="bk-cover-back"></div>
             </div>
-            <svg className="my-svg"viewBox="0 0 200 200" width="100%" height="100%">
-  {/* 白色背景 */}
-  <rect width="100%" height="100%" fill="white" />
-
-  {/* 手繪濾鏡 */}
-  <defs>
-    <filter id="rough">
-      <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="2" result="noise"/>
-      <feDisplacementMap in2="noise" in="SourceGraphic" scale="2"/>
-    </filter>
-  </defs>
-
-  {/* 線條 */}
-  <path
-    className="line"
-    pathLength="1"
-    d="M94 86 
-       L79 77.53
-       C78.6948 77.3538 78.4415 77.1001 78.2659 76.7945 
-       78.0903 76.4889 77.9986 76.1424 78 75.79
-       V40
-       C78 29.9218 73.9964 20.2563 66.8701 13.1299
-       C59.7437 6.00356 50.0782 2 40 2
-       C29.9218 2 20.2563 6.00356 13.1299 13.1299
-       C6.00356 20.2563 2 29.9218 2 40
-       V134
-       C2 144.078 6.00356 153.744 13.1299 160.87
-       C20.2563 167.996 29.9218 172 40 172
-       C50.0782 172 59.7437 167.996 66.8701 160.87
-       C73.9964 153.744 78 144.078 78 134
-       V95.5"
-    stroke="black"
-    strokeWidth="3"
-    strokeMiterlimit="10"
-    strokeLinecap="round"
-    style={{ filter: 'url(#rough)' }}
-  />
-</svg>
-
-              <svg viewBox="0 0 200 200" width="200">
-  <path class="part" pathLength="1" d="M 10 150 Q 95 10 180 150" />
-  <path class="part" pathLength="1" d="M 30 150 Q 95 30 160 150" />
-</svg>
-
-          </div>
+          ))}
         </section>
-      </div>
+      )}
+
+      {/* 平面設計區塊 */}
+      <section
+        className="graphic-design-section"
+        style={{
+          backgroundColor: getSectionBgColor('graphic'),
+          height: '760px',
+          width: '100%',
+        }}
+      ></section>
+
+      {/* UI/UX 設計區塊 */}
+      <section
+        className="uiux-design-section"
+        style={{
+          backgroundColor: getSectionBgColor('uiux'),
+          height: '720px',
+          width: '100%',
+        }}
+      ></section>
+
+      {/* 最後一個設計區塊 */}
+      <section
+        className="final-design-section"
+        style={{
+          backgroundColor: getSectionBgColor('final'),
+          height: '760px',
+          width: '100%',
+        }}
+      ></section>
     </div>
   );
 }
