@@ -1,17 +1,48 @@
 import '../index.css';
 import '../css/WorkPage.css';
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import workTitle from '../assets/work-title.svg';
+import wafa from '../assets/wafa.jpg'; 
+import wafa1 from '../assets/wafa1.png';
+import wafa2 from '../assets/wafa2.png';
+import wafa3 from '../assets/wafa3.png';
+import wafa4 from '../assets/wafa4.png';
+import wafa5 from '../assets/wafa5.png';
+import wafa6 from '../assets/wafa6.png';
+import HTMLFlipBook from 'react-pageflip';
 
 function WorkPage() {
   const [activeCategory, setActiveCategory] = useState('all');
-  const bookRefs = useRef([]);
+  const [activeBook, setActiveBook] = useState(null);
 
   const categories = [
     { label: 'All', id: 'all' },
     { label: 'Graphic', id: 'graphic' },
     { label: 'Motion', id: 'motion' },
     { label: 'UI/UX', id: 'uiux' },
+  ];
+
+  const books = [
+    {
+      cover: wafa,
+      size: { cover: { w: 263, h: 372 }, page: { w: 343, h: 486 } },
+      pages: [[wafa1, wafa2], [wafa3, wafa4], [wafa5, wafa6], [wafa1, wafa2], [wafa3, wafa4]],
+    },
+    {
+      cover: wafa,
+      size: { cover: { w: 263, h: 372 }, page: { w: 343, h: 486 } },
+      pages: [[wafa, wafa], [wafa, wafa], [wafa, wafa], [wafa, wafa], [wafa, wafa]],
+    },
+    {
+      cover: wafa,
+      size: { cover: { w: 263, h: 372 }, page: { w: 343, h: 486 } },
+      pages: [[wafa, wafa], [wafa, wafa], [wafa, wafa], [wafa, wafa], [wafa, wafa]],
+    },
+    {
+      cover: wafa,
+      size: { cover: { w: 175, h: 371 }, page: { w: 343, h: 486 } },
+      pages: [[wafa, wafa], [wafa, wafa], [wafa, wafa], [wafa, wafa], [wafa, wafa]],
+    },
   ];
 
   const getSectionBgColor = (section) => {
@@ -25,66 +56,8 @@ function WorkPage() {
     }
   };
 
-  useEffect(() => {
-    // 只有在 All 分類時才初始化書本效果
-    if (activeCategory !== 'all') return;
-    if (!window.jQuery) return;
-    const $ = window.jQuery;
-    if (typeof $.fn.bookblock !== 'function') return;
-
-    const books = [];
-
-    bookRefs.current.forEach((bookEl) => {
-      if (!bookEl) return;
-
-      const $book = $(bookEl);
-      const $bookBlock = $book.find('.bb-bookblock');
-      const $backCover = $book.find('.bk-cover-back');
-      const $backCoverBookBlock = $bookBlock.clone().appendTo($backCover);
-
-      const bookDefault = () => $book.removeClass('bk-viewback bk-viewinside').addClass('bk-bookdefault').data({ opened: false, flip: false });
-      const bookBack = () => $book.removeClass('bk-viewinside bk-bookdefault').addClass('bk-viewback').data({ opened: false, flip: true });
-      const bookInside = () => $book.removeClass('bk-viewback bk-bookdefault').addClass('bk-viewinside').data({ opened: true, flip: false });
-
-      bookDefault();
-
-      $book.find('.bk-bookview').on('click', bookInside);
-      $book.find('.bk-bookback').on('click', () => $book.data('flip') ? bookDefault() : bookBack());
-
-      $bookBlock.bookblock({ speed: 800, shadow: false });
-      $backCoverBookBlock.bookblock({ speed: 800, shadow: false });
-
-      const bookBlockNext = () => $bookBlock.bookblock('next');
-      const bookBlockPrev = () => $bookBlock.bookblock('prev');
-
-      $bookBlock.children().add($backCoverBookBlock.children()).on('click', (e) => {
-        if ($(e.target).closest('.bk-cover-back').length === 0) bookBlockNext();
-        else bookBlockPrev();
-      });
-
-      books.push($book);
-    });
-
-    const handleClickOutside = (e) => {
-      if ($(e.target).closest('.bk-book').length === 0) {
-        books.forEach(($book) => {
-          $book.removeClass('bk-viewinside bk-viewback').addClass('bk-bookdefault');
-        });
-      }
-    };
-
-    $('html').on('click', handleClickOutside);
-
-    // 清除事件與 DOM 狀態
-    return () => {
-      $('html').off('click', handleClickOutside);
-      books.forEach(($book) => {
-        $book.off();
-        $book.find('*').off();
-        $book.removeClass('bk-viewinside bk-viewback').addClass('bk-bookdefault');
-      });
-    };
-  }, [activeCategory]);
+  const openBook = (index) => setActiveBook(index);
+  const closeBook = () => setActiveBook(null);
 
   return (
     <div className="App">
@@ -110,7 +83,7 @@ function WorkPage() {
         <div className="line-grow" style={{ width: '100%', height: '3px', backgroundColor: 'black', marginTop: '20px' }}></div>
       </section>
 
-      {/* 菜單設計區塊（只在 All 時顯示） */}
+      {/* 書本封面區塊 */}
       {activeCategory === 'all' && (
         <section
           className="menu-design-section"
@@ -120,65 +93,93 @@ function WorkPage() {
             width: '100%',
             display: 'flex',
             justifyContent: 'center',
-            alignItems: 'flex-start',
-            paddingTop: '150px',
-            gap: '50px',
-            flexWrap: 'wrap'
+            alignItems: 'center',
+            gap: '5vh',
+            position: 'relative',
+            flexWrap: 'wrap',
           }}
         >
-          {[1, 2, 3, 4].map((i) => (
-            <div
-              key={i}
-              className="menu-book bk-book"
-              ref={(el) => (bookRefs.current[i] = el)}
-              style={{
-                width: '263px',
-                height: '372px',
-                backgroundColor: '#ccc',
-                borderRadius: '4px',
-                position: 'relative'
-              }}
-            >
-              <div className="bb-bookblock">
-                <div className="bb-item">Page 1</div>
-                <div className="bb-item">Page 2</div>
-                <div className="bb-item">Page 3</div>
-              </div>
-              <div className="bk-cover-back"></div>
-            </div>
-          ))}
+          {/* ✅ 標題區塊 */}
+          <div className="section-title">
+            <div className="zh">菜單設計</div>
+            <div className="en">Menu Design</div>
+          </div>
+
+          {/* 書本清單 */}
+          {books.map((book, i) => (
+  <div
+    key={i}
+    onClick={() => openBook(i)}
+    className="book-cover"
+    style={{
+      width: `${book.size.cover.w}px`,
+      height: `${book.size.cover.h}px`,
+      backgroundImage: `url(${book.cover})`,
+    }}
+  >
+    {/* 提示文字 + 漸層箭頭 */}
+<div className="hint-wrapper">
+  <div className="hint-text">點擊封面翻閱</div>
+  <svg className="hint-arrow" viewBox="0 0 24 24" fill="none">
+    <defs>
+      <linearGradient id="arrowGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stopColor="#ff7e5f" />
+        <stop offset="100%" stopColor="#feb47b" />
+      </linearGradient>
+    </defs>
+    <path d="M12 5v14M5 12l7 7 7-7" stroke="url(#arrowGradient)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+</div>
+
+    {/* hover 時可顯示的標題 */}
+    <div className="book-title">Book {i + 1}</div>
+  </div>
+))}
+
         </section>
       )}
 
+      {/* 彈窗翻書 */}
+      {activeBook !== null && (
+        <div className="book-modal">
+          <HTMLFlipBook
+            width={books[activeBook].size.page.w}
+            height={books[activeBook].size.page.h}
+            size="fixed"
+            showCover={true}
+            mobileScrollSupport={true}
+            maxShadowOpacity={0.5}
+          >
+            {books[activeBook].pages.flatMap((pair, index) => [
+              <div
+                key={`left-${index}`}
+                className="flip-page"
+                style={{ width: books[activeBook].size.page.w, height: books[activeBook].size.page.h }}
+              >
+                <img src={pair[0]} alt={`Book ${activeBook + 1} Page ${index * 2 + 1}`} />
+              </div>,
+              <div
+                key={`right-${index}`}
+                className="flip-page"
+                style={{ width: books[activeBook].size.page.w, height: books[activeBook].size.page.h }}
+              >
+                <img src={pair[1]} alt={`Book ${activeBook + 1} Page ${index * 2 + 2}`} />
+              </div>,
+            ])}
+          </HTMLFlipBook>
+
+          <button className="book-modal-close" onClick={closeBook}>×</button>
+        </div>
+      )}
+
       {/* 平面設計區塊 */}
-      <section
-        className="graphic-design-section"
-        style={{
-          backgroundColor: getSectionBgColor('graphic'),
-          height: '760px',
-          width: '100%',
-        }}
-      ></section>
+      <section className="graphic-design-section" style={{ backgroundColor: getSectionBgColor('graphic'), height: '760px', width: '100%' }}></section>
 
       {/* UI/UX 設計區塊 */}
-      <section
-        className="uiux-design-section"
-        style={{
-          backgroundColor: getSectionBgColor('uiux'),
-          height: '720px',
-          width: '100%',
-        }}
-      ></section>
+      <section className="uiux-design-section" style={{ backgroundColor: getSectionBgColor('uiux'), height: '720px', width: '100%' }}></section>
 
       {/* 最後一個設計區塊 */}
-      <section
-        className="final-design-section"
-        style={{
-          backgroundColor: getSectionBgColor('final'),
-          height: '760px',
-          width: '100%',
-        }}
-      ></section>
+      <section className="final-design-section" style={{ backgroundColor: getSectionBgColor('final'), height: '760px', width: '100%' }}></section>
     </div>
   );
 }
